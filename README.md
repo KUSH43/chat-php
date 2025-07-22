@@ -1,2 +1,2 @@
 # chat-php
-bot chat-php test
+bot chat-php
