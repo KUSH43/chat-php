@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  php-app:
+    build: .
+    container_name: php-chat
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      MARIADB_HOST: db
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - chatnet
+
+  db:
+    image: mariadb:10.5
+    container_name: mariadb-chat
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    networks:
+      - chatnet
+
+networks:
+  chatnet:
