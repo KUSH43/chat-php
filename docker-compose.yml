@@ -2,10 +2,8 @@ version: '3.8'
 
 services:
   php-app:
-    build: .
+    image: kush43/chat-php:latest
     container_name: php-chat
-    ports:
-      - "9090:80"
     depends_on:
       - db
     environment:
@@ -26,7 +24,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - /mnt/chat-php-db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - chatnet
 
